@@ -16,8 +16,10 @@ Float_t ctau_reweighter(Float_t t, Float_t tau0, Float_t tau1)
 void read() {
     // Open the ROOT file
     TFile *file1 = TFile::Open("root://cmsxrootd.fnal.gov///store/group/lpclonglived/B-ParkingLLPs/V1p19_9/BToKPhi_MuonLLPDecayGenFilter_PhiToPi0Pi0_mPhi0p3_ctau300/BToKPhi_MuonLLPDecayGenFilter_PhiToPi0Pi0_mPhi0p3_ctau300.root");
-    TFile *file2 = TFile::Open("root://cmsxrootd.fnal.gov///store/group/lpclonglived/B-ParkingLLPs/V1p19_9/BToKPhi_MuonLLPDecayGenFilter_PhiToPi0Pi0_mPhi0p3_ctau3000/BToKPhi_MuonLLPDecayGenFilter_PhiToPi0Pi0_mPhi0p3_ctau3000.root");
-    
+std::cout << "check point 1" << std::endl;    
+TFile *file2 = TFile::Open("root://cmsxrootd.fnal.gov///store/group/lpclonglived/B-ParkingLLPs/V1p19_9/BToKPhi_MuonLLPDecayGenFilter_PhiToPi0Pi0_mPhi0p3_ctau3000/BToKPhi_MuonLLPDecayGenFilter_PhiToPi0Pi0_mPhi0p3_ctau3000.root");
+std::cout << "check point 2" << std::endl;    
+
     
     if (!file1 || file1->IsZombie()) {
         std::cerr << "Error opening file" << std::endl;
@@ -29,6 +31,7 @@ void read() {
     }
 
     // Get the TTree from the file
+   std::cout <<"check point 3"<< std::endl; 
     TTree *tree_300 = nullptr;
     file1->GetObject("MuonSystem", tree_300);
     if (!tree_300) {
@@ -36,6 +39,7 @@ void read() {
         file1->Close();
         return;
     }
+   std::cout << "check point 4" << std::endl;
     TTree *tree_3000 = nullptr;
     file2->GetObject("MuonSystem", tree_3000);
     if (!tree_3000) {
@@ -45,11 +49,13 @@ void read() {
     }
 
     // set your binning
+    std::cout << "check point 5" << std::endl;
     TH1F *h_gLLP_ctau_300 = new TH1F("h_gLLP_ctau_300", "h_gLLP_ctau_300", 1000, 0, 1000);
     TH1F *h_gLLP_ctau_300_reweighted = new TH1F("h_gLLP_ctau_300_reweighted", "h_gLLP_ctau_300_reweighted", 1000, 0, 1000);
     TH1F *h_gLLP_ctau_3000 = new TH1F("h_gLLP_ctau_3000", "h_gLLP_ctau_3000", 1000, 0, 1000);
     TH1F *h_gLLP_ctau_3000_reweighted = new TH1F("h_gLLP_ctau_3000_reweighted", "h_gLLP_ctau_3000_reweighted", 1000, 0, 1000);
     
+    std::cout << "check point 6" << std::endl;
     //try more bins
     
 
@@ -59,16 +65,18 @@ void read() {
     
     tree_300->SetBranchAddress("gLLP_ctau", &gLLP_ctau_300);
     tree_3000->SetBranchAddress("gLLP_ctau", &gLLP_ctau_3000);
-
+std::cout << "check point 7" << std::endl;
     // Loop over the tree entries and fill the histogram
     Long64_t nEntries_300 = tree_300->GetEntries();
-    float w = 1.0;//weight
+std::cout <<"assign bins" << std::endl;   
+ float w = 1.0;//weight
     for (Long64_t i = 0; i < nEntries_300; i++) {
         tree_300->GetEntry(i);
         h_gLLP_ctau_300->Fill(gLLP_ctau_300, w);
     }
-    h_gLLP_ctau_300->Scale(1./h_gLLP_ctau_300->Integral(0,-1));
-
+std::cout << "fill the graph" << std::endl;    
+h_gLLP_ctau_300->Scale(1./h_gLLP_ctau_300->Integral(0,-1));
+std::cout << "check point 8" << std::endl;
     //Long64_t nEntries_300 = tree_300->GetEntries();
 
     for (Long64_t i = 0; i < nEntries_300; i++) {
