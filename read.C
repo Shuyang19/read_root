@@ -70,8 +70,13 @@ std::cout << "check point 7" << std::endl;
     Long64_t nEntries_300 = tree_300->GetEntries();
 std::cout <<"assign bins" << std::endl;   
  float w = 1.0;//weight
+ std::cout << "initialize weight" << std::cout;
+ int count = 0;
     for (Long64_t i = 0; i < nEntries_300; i++) {
+        count++;
+        std::cout <<"entering the for loop: " << count << std::endl;
         tree_300->GetEntry(i);
+        std::cout << "get entries" << std::endl;
         h_gLLP_ctau_300->Fill(gLLP_ctau_300, w);
     }
 std::cout << "fill the graph" << std::endl;    
