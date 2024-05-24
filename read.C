@@ -68,24 +68,14 @@ void read() {
     //std::cout << "check point 7" << std::endl;
     // Loop over the tree entries and fill the histogram
     Long64_t nEntries_300 = tree_300->GetEntries();
-    //std::cout <<"assign bins" << std::endl;   
-    //weight
-    //std::cout << "initialize weight" << std::endl;
-    //int count = 0;
-    std::cout <<"number of entries"<<nEntries_300<<std::endl;
+    //std::cout <<"number of entries"<<nEntries_300<<std::endl;
     for (Long64_t i = 0; i < nEntries_300; i++) {
         float w = 1.0;
-        //count++;
-        //std::cout <<"entering the for loop: " << count << std::endl;
         tree_300->GetEntry(i);
-        //std::cout << "get entries" << std::endl;
         h_gLLP_ctau_300->Fill(gLLP_ctau_300, w);
-        //std::cout << "fill the graph"<< std::endl;
     }
     //std::cout << "fill the graph" << std::endl;    
     h_gLLP_ctau_300->Scale(1./h_gLLP_ctau_300->Integral(0,-1));
-    //std::cout << "check point 8" << std::endl;
-    //Long64_t nEntries_300 = tree_300->GetEntries();
 
     for (Long64_t i = 0; i < nEntries_300; i++) {
         tree_300->GetEntry(i);
@@ -98,7 +88,6 @@ void read() {
     
 
     Long64_t nEntries_3000 = tree_3000->GetEntries();
-
 
     for (Long64_t i = 0; i < nEntries_3000; i++) {
         float w = 1.0;
