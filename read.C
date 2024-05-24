@@ -65,46 +65,57 @@ void read() {
     
     tree_300->SetBranchAddress("gLLP_ctau", &gLLP_ctau_300);
     tree_3000->SetBranchAddress("gLLP_ctau", &gLLP_ctau_3000);
-    std::cout << "check point 7" << std::endl;
+    //std::cout << "check point 7" << std::endl;
     // Loop over the tree entries and fill the histogram
     Long64_t nEntries_300 = tree_300->GetEntries();
     //std::cout <<"assign bins" << std::endl;   
-    float w = 1.0;//weight
+    //weight
     //std::cout << "initialize weight" << std::endl;
-    int count = 0;
+    //int count = 0;
     std::cout <<"number of entries"<<nEntries_300<<std::endl;
     for (Long64_t i = 0; i < nEntries_300; i++) {
-        count++;
+        float w = 1.0;
+        //count++;
         //std::cout <<"entering the for loop: " << count << std::endl;
         tree_300->GetEntry(i);
         //std::cout << "get entries" << std::endl;
         h_gLLP_ctau_300->Fill(gLLP_ctau_300, w);
         //std::cout << "fill the graph"<< std::endl;
     }
-//std::cout << "fill the graph" << std::endl;    
-h_gLLP_ctau_300->Scale(1./h_gLLP_ctau_300->Integral(0,-1));
-std::cout << "check point 8" << std::endl;
+    //std::cout << "fill the graph" << std::endl;    
+    h_gLLP_ctau_300->Scale(1./h_gLLP_ctau_300->Integral(0,-1));
+    //std::cout << "check point 8" << std::endl;
     //Long64_t nEntries_300 = tree_300->GetEntries();
 
     for (Long64_t i = 0; i < nEntries_300; i++) {
         tree_300->GetEntry(i);
         float w = 1.0;
-        float reweight_factor = ctau_reweighter(gLLP_ctau_300, 30, 20);
+        float reweight_factor = ctau_reweighter(gLLP_ctau_300, 30, 300);
         w *= reweight_factor;
         h_gLLP_ctau_300_reweighted->Fill(gLLP_ctau_300, w);
     }
     h_gLLP_ctau_300_reweighted->Scale(1./h_gLLP_ctau_300_reweighted->Integral(0,-1)); 
     
 
-    // Long64_t nEntries_1000 = tree_1000->GetEntries();
-    // for (Long64_t i = 0; i < nEntries_1000; i++) {
-    //     tree_1000->GetEntry(i);
-    //     float w = 1.0;
-    //     float reweight_factor = ctau_reweighter(gLLP_ctau_1000, 100, 90);
-    //     h_gLLP_ctau_1000->Fill(gLLP_ctau_1000, w);
+    Long64_t nEntries_3000 = tree_3000->GetEntries();
 
-    // }
-    // h_gLLP_ctau_1000->Scale(1./h_gLLP_ctau_1000->Integral(0,-1));
+
+    for (Long64_t i = 0; i < nEntries_3000; i++) {
+        float w = 1.0;
+        tree_3000->GetEntry(i);
+        h_gLLP_ctau_3000->Fill(gLLP_ctau_3000, w);
+        
+    }
+    h_gLLP_ctau_3000->Scale(1./h_gLLP_ctau_3000->Integral(0,-1));
+
+    for (Long64_t i = 0; i < nEntries_3000; i++) {
+        tree_3000->GetEntry(i);
+        float w = 1.0;
+        float reweight_factor = ctau_reweighter(gLLP_ctau_3000, 300, 30);
+        h_gLLP_ctau_3000_reweighted->Fill(gLLP_ctau_3000, w);
+
+    }
+    h_gLLP_ctau_3000->Scale(1./h_gLLP_ctau_3000->Integral(0,-1));
 
 
 
@@ -142,7 +153,11 @@ std::cout << "check point 8" << std::endl;
     // text->SetNDC();
     // text->SetTextSize(0.04);
     // text->SetTextAlign(22); 
-
+    TCanvas *c2 = new TCanvas("c2", "gLLP_ctau Distribution", 800, 600);
+    h_gLLP_ctau_3000->SetLineColor(kBlue);
+    h_gLLP_ctau_3000_reweighted->SetLineColor(kRed);
+    h_gLLP_ctau_3000->Draw();
+    h_gLLP_ctau_3000_reweighted->Draw("same"); 
         // Convert float to string
     // std::ostringstream oss_x;
     // std::ostringstream oss_ratio;
@@ -152,7 +167,8 @@ std::cout << "check point 8" << std::endl;
     // std::string ratio_str = oss_ratio.str();
     // std::string annotation = "x-intersection " + x_cor_str + " ratio: " + ratio_str;
     // text->DrawLatex(0.5, 0.8, annotation.c_str());
-    c1->SaveAs("h_gLLP_Pi0Pi0_mPhi0p3_ctau300_with_reweighted_combined.png");
+    c1->SaveAs("h_gLLP_Pi0Pi0_mPhi0p3_ctau300_with_reweighted3000_combined.png");
+    c2->SaveAs("h_gLLP_Pi0Pi0_mPhi0p3_ctau3000_with_reweighted300_combined.png");
 
     //seperate histograms
     // TCanvas *c2 = new TCanvas("c2", "gLLP_ctau Distribution", 800, 600);
