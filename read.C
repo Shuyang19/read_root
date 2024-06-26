@@ -109,7 +109,7 @@ void read() {
 h_gLLP_ctau_3000_reweighted->Fill(gLLP_ctau_3000, w);
 
     }
-    h_gLLP_ctau_3000->Scale(1./h_gLLP_ctau_3000->Integral(0,-1));
+    h_gLLP_ctau_3000_reweighted->Scale(1./h_gLLP_ctau_3000->Integral(0,-1));
 
 
 
