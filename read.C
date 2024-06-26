@@ -105,7 +105,8 @@ void read() {
         tree_3000->GetEntry(i);
         float w = 1.0;
         float reweight_factor = ctau_reweighter(gLLP_ctau_3000, 300, 30);
-        h_gLLP_ctau_3000_reweighted->Fill(gLLP_ctau_3000, w);
+	w *=reweight_factor;        
+h_gLLP_ctau_3000_reweighted->Fill(gLLP_ctau_3000, w);
 
     }
     h_gLLP_ctau_3000->Scale(1./h_gLLP_ctau_3000->Integral(0,-1));
