@@ -9,7 +9,11 @@ Float_t ctau_reweighter(Float_t t, Float_t tau0, Float_t tau1)
 {
     Float_t numerator = (1.0f / tau1) * expf(-t / tau1);
     Float_t denominator = (1.0f / tau0) * expf(-t / tau0);
-    return numerator / denominator;
+if(denominator == 0.0f)
+{
+std::cout << "warning" << std::endl;
+}    
+return numerator / denominator;
 
 }
 
