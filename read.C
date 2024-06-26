@@ -87,7 +87,7 @@ void read() {
     h_gLLP_ctau_300_reweighted->Scale(1./h_gLLP_ctau_300_reweighted->Integral(0,-1)); 
     
 
-    Long64_t nEntries_3000 = tree_300->GetEntries();
+    Long64_t nEntries_3000 = tree_3000->GetEntries();
 
     for (Long64_t i = 0; i < nEntries_3000; i++) {
         float w = 1.0;
