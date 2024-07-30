@@ -21,18 +21,18 @@ void read() {
     // Open the ROOT file
     TFile *file1 = TFile::Open("BToKPhi_MuonLLPDecayGenFilter_PhiToPi0Pi0_mPhi0p5_ctau500.root");
     //std::cout << "check point 1" << std::endl;    
-    TFile *file2 = TFile::Open("BToKPhi_MuonLLPDecayGenFilter_PhiToPi0Pi0_mPhi0p5_ctau5000.root");
-    std::cout << "check point 2" << std::endl;    
+    // TFile *file2 = TFile::Open("BToKPhi_MuonLLPDecayGenFilter_PhiToPi0Pi0_mPhi0p5_ctau5000.root");
+    // std::cout << "check point 2" << std::endl;    
 
     
     if (!file1 || file1->IsZombie()) {
         std::cerr << "Error opening file" << std::endl;
         return;
     }
-    if (!file2 || file2->IsZombie()) {
-        std::cerr << "Error opening file" << std::endl;
-        return;
-    }
+    // if (!file2 || file2->IsZombie()) {
+    //     std::cerr << "Error opening file" << std::endl;
+    //     return;
+    // }
 
     // Get the TTree from the file
    //std::cout <<"check point 3"<< std::endl; 
@@ -44,20 +44,20 @@ void read() {
         return;
     }
    //std::cout << "check point 4" << std::endl;
-    TTree *tree_5000 = nullptr;
-    file2->GetObject("MuonSystem", tree_5000);
-    if (!tree_5000) {
-        std::cerr << "Error retrieving MuonSystem TTree" << std::endl;
-        file2->Close();
-        return;
-    }
+    // TTree *tree_5000 = nullptr;
+    // file2->GetObject("MuonSystem", tree_5000);
+    // if (!tree_5000) {
+    //     std::cerr << "Error retrieving MuonSystem TTree" << std::endl;
+    //     file2->Close();
+    //     return;
+    // }
 
     // set your binning
     //std::cout << "check point 5" << std::endl;
     TH1F *h_gLLP_ctau_500 = new TH1F("h_gLLP_ctau_500", "h_gLLP_ctau_500", 1000, 0, 1000);
     TH1F *h_gLLP_ctau_500_reweighted = new TH1F("h_gLLP_ctau_500_reweighted", "h_gLLP_ctau_500_reweighted", 1000, 0, 1000);
-    TH1F *h_gLLP_ctau_5000 = new TH1F("h_gLLP_ctau_5000", "h_gLLP_ctau_5000", 1000, 0, 1000);
-    TH1F *h_gLLP_ctau_5000_reweighted = new TH1F("h_gLLP_ctau_5000_reweighted", "h_gLLP_ctau_5000_reweighted", 1000, 0, 1000);
+    // TH1F *h_gLLP_ctau_5000 = new TH1F("h_gLLP_ctau_5000", "h_gLLP_ctau_5000", 1000, 0, 1000);
+    // TH1F *h_gLLP_ctau_5000_reweighted = new TH1F("h_gLLP_ctau_5000_reweighted", "h_gLLP_ctau_5000_reweighted", 1000, 0, 1000);
     
     //std::cout << "check point 6" << std::endl;
     //try more bins
@@ -65,10 +65,11 @@ void read() {
 
     // Set branch address
     float gLLP_ctau_500;
-    float gLLP_ctau_5000;
+    //float gLLP_ctau_5000;
     
     tree_500->SetBranchAddress("gLLP_ctau", &gLLP_ctau_500);
-    tree_5000->SetBranchAddress("gLLP_ctau", &gLLP_ctau_5000);
+    //tree_5000->SetBranchAddress("gLLP_ctau", &gLLP_ctau_5000);
+    
     //std::cout << "check point 7" << std::endl;
     // Loop over the tree entries and fill the histogram
     Long64_t nEntries_500 = tree_500->GetEntries();
@@ -91,25 +92,25 @@ void read() {
     h_gLLP_ctau_500_reweighted->Scale(1./h_gLLP_ctau_500_reweighted->Integral(0,-1)); 
     
 
-    Long64_t nEntries_5000 = tree_5000->GetEntries();
+//     Long64_t nEntries_5000 = tree_5000->GetEntries();
 
-    for (Long64_t i = 0; i < nEntries_5000; i++) {
-        float w = 1.0;
-        tree_5000->GetEntry(i);
-        h_gLLP_ctau_5000->Fill(gLLP_ctau_5000, w);
+//     for (Long64_t i = 0; i < nEntries_5000; i++) {
+//         float w = 1.0;
+//         tree_5000->GetEntry(i);
+//         h_gLLP_ctau_5000->Fill(gLLP_ctau_5000, w);
         
-    }
-    h_gLLP_ctau_5000->Scale(1./h_gLLP_ctau_5000->Integral(0,-1));
+//     }
+//     h_gLLP_ctau_5000->Scale(1./h_gLLP_ctau_5000->Integral(0,-1));
 
-    for (Long64_t i = 0; i < nEntries_5000; i++) {
-        tree_5000->GetEntry(i);
-        float w = 1.0;
-        float reweight_factor = ctau_reweighter(gLLP_ctau_5000, 500, 30);
-	w *=reweight_factor;        
-h_gLLP_ctau_5000_reweighted->Fill(gLLP_ctau_5000, w);
+//     for (Long64_t i = 0; i < nEntries_5000; i++) {
+//         tree_5000->GetEntry(i);
+//         float w = 1.0;
+//         float reweight_factor = ctau_reweighter(gLLP_ctau_5000, 500, 30);
+// 	w *=reweight_factor;        
+// h_gLLP_ctau_5000_reweighted->Fill(gLLP_ctau_5000, w);
 
-    }
-    h_gLLP_ctau_5000_reweighted->Scale(1./h_gLLP_ctau_5000->Integral(0,-1));
+//     }
+//     h_gLLP_ctau_5000_reweighted->Scale(1./h_gLLP_ctau_5000->Integral(0,-1));
 
 
 
@@ -147,12 +148,12 @@ h_gLLP_ctau_5000_reweighted->Fill(gLLP_ctau_5000, w);
     // text->SetNDC();
     // text->SetTextSize(0.04);
     // text->SetTextAlign(22); 
-    TCanvas *c2 = new TCanvas("c2", "gLLP_ctau Distribution", 800, 600);
-    h_gLLP_ctau_5000->SetLineColor(kBlue);
-    h_gLLP_ctau_5000_reweighted->SetLineColor(kRed);
-    h_gLLP_ctau_5000->Draw();
-    h_gLLP_ctau_5000_reweighted->Draw("same"); 
-        // Convert float to string
+    // TCanvas *c2 = new TCanvas("c2", "gLLP_ctau Distribution", 800, 600);
+    // h_gLLP_ctau_5000->SetLineColor(kBlue);
+    // h_gLLP_ctau_5000_reweighted->SetLineColor(kRed);
+    // h_gLLP_ctau_5000->Draw();
+    // h_gLLP_ctau_5000_reweighted->Draw("same"); 
+    //     // Convert float to string
     // std::ostringstream oss_x;
     // std::ostringstream oss_ratio;
     // oss_x << x_cor;
@@ -162,7 +163,7 @@ h_gLLP_ctau_5000_reweighted->Fill(gLLP_ctau_5000, w);
     // std::string annotation = "x-intersection " + x_cor_str + " ratio: " + ratio_str;
     // text->DrawLatex(0.5, 0.8, annotation.c_str());
     c1->SaveAs("h_gLLP_Pi0Pi0_mPhi0p3_ctau500_with_reweighted5000_combined.png");
-    c2->SaveAs("h_gLLP_Pi0Pi0_mPhi0p3_ctau5000_with_reweighted500_combined.png");
+    //c2->SaveAs("h_gLLP_Pi0Pi0_mPhi0p3_ctau5000_with_reweighted500_combined.png");
 
     //seperate histograms
     // TCanvas *c2 = new TCanvas("c2", "gLLP_ctau Distribution", 800, 600);
@@ -179,7 +180,7 @@ h_gLLP_ctau_5000_reweighted->Fill(gLLP_ctau_5000, w);
 
     // Close the ROOT file
     file1->Close();
-    file2->Close();
+    //file2->Close();
 }
 
 
