@@ -85,7 +85,7 @@ void read() {
     for (Long64_t i = 0; i < nEntries_500; i++) {
         tree_500->GetEntry(i);
         float w = 1.0;
-        float reweight_factor = ctau_reweighter(gLLP_ctau_500, 30, 500);
+        float reweight_factor = ctau_reweighter(gLLP_ctau_500, 50, 500);
         w *= reweight_factor;
         h_gLLP_ctau_500_reweighted->Fill(gLLP_ctau_500, w);
     }
@@ -105,7 +105,7 @@ void read() {
 //     for (Long64_t i = 0; i < nEntries_5000; i++) {
 //         tree_5000->GetEntry(i);
 //         float w = 1.0;
-//         float reweight_factor = ctau_reweighter(gLLP_ctau_5000, 500, 30);
+//         float reweight_factor = ctau_reweighter(gLLP_ctau_5000, 500, 50);
 // 	w *=reweight_factor;        
 // h_gLLP_ctau_5000_reweighted->Fill(gLLP_ctau_5000, w);
 
