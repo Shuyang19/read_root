@@ -36,17 +36,17 @@ void read() {
 
     // Get the TTree from the file
    //std::cout <<"check point 3"<< std::endl; 
-    TTree *tree_300 = nullptr;
-    file1->GetObject("MuonSystem", tree_300);
-    if (!tree_300) {
+    TTree *tree_500 = nullptr;
+    file1->GetObject("MuonSystem", tree_500);
+    if (!tree_500) {
         std::cerr << "Error retrieving MuonSystem TTree" << std::endl;
         file1->Close();
         return;
     }
    //std::cout << "check point 4" << std::endl;
-    TTree *tree_3000 = nullptr;
-    file2->GetObject("MuonSystem", tree_3000);
-    if (!tree_3000) {
+    TTree *tree_5000 = nullptr;
+    file2->GetObject("MuonSystem", tree_5000);
+    if (!tree_5000) {
         std::cerr << "Error retrieving MuonSystem TTree" << std::endl;
         file2->Close();
         return;
@@ -54,62 +54,62 @@ void read() {
 
     // set your binning
     //std::cout << "check point 5" << std::endl;
-    TH1F *h_gLLP_ctau_300 = new TH1F("h_gLLP_ctau_300", "h_gLLP_ctau_300", 1000, 0, 1000);
-    TH1F *h_gLLP_ctau_300_reweighted = new TH1F("h_gLLP_ctau_300_reweighted", "h_gLLP_ctau_300_reweighted", 1000, 0, 1000);
-    TH1F *h_gLLP_ctau_3000 = new TH1F("h_gLLP_ctau_3000", "h_gLLP_ctau_3000", 1000, 0, 1000);
-    TH1F *h_gLLP_ctau_3000_reweighted = new TH1F("h_gLLP_ctau_3000_reweighted", "h_gLLP_ctau_3000_reweighted", 1000, 0, 1000);
+    TH1F *h_gLLP_ctau_500 = new TH1F("h_gLLP_ctau_500", "h_gLLP_ctau_500", 1000, 0, 1000);
+    TH1F *h_gLLP_ctau_500_reweighted = new TH1F("h_gLLP_ctau_500_reweighted", "h_gLLP_ctau_500_reweighted", 1000, 0, 1000);
+    TH1F *h_gLLP_ctau_5000 = new TH1F("h_gLLP_ctau_5000", "h_gLLP_ctau_5000", 1000, 0, 1000);
+    TH1F *h_gLLP_ctau_5000_reweighted = new TH1F("h_gLLP_ctau_5000_reweighted", "h_gLLP_ctau_5000_reweighted", 1000, 0, 1000);
     
     //std::cout << "check point 6" << std::endl;
     //try more bins
     
 
     // Set branch address
-    float gLLP_ctau_300;
-    float gLLP_ctau_3000;
+    float gLLP_ctau_500;
+    float gLLP_ctau_5000;
     
-    tree_300->SetBranchAddress("gLLP_ctau", &gLLP_ctau_300);
-    tree_3000->SetBranchAddress("gLLP_ctau", &gLLP_ctau_3000);
+    tree_500->SetBranchAddress("gLLP_ctau", &gLLP_ctau_500);
+    tree_5000->SetBranchAddress("gLLP_ctau", &gLLP_ctau_5000);
     //std::cout << "check point 7" << std::endl;
     // Loop over the tree entries and fill the histogram
-    Long64_t nEntries_300 = tree_300->GetEntries();
+    Long64_t nEntries_500 = tree_500->GetEntries();
     //std::cout <<"number of entries"<<nEntries_300<<std::endl;
-    for (Long64_t i = 0; i < nEntries_300; i++) {
+    for (Long64_t i = 0; i < nEntries_500; i++) {
         float w = 1.0;
-        tree_300->GetEntry(i);
-        h_gLLP_ctau_300->Fill(gLLP_ctau_300, w);
+        tree_500->GetEntry(i);
+        h_gLLP_ctau_500->Fill(gLLP_ctau_500, w);
     }
     //std::cout << "fill the graph" << std::endl;    
-    h_gLLP_ctau_300->Scale(1./h_gLLP_ctau_300->Integral(0,-1));
+    h_gLLP_ctau_500->Scale(1./h_gLLP_ctau_500->Integral(0,-1));
 
-    for (Long64_t i = 0; i < nEntries_300; i++) {
-        tree_300->GetEntry(i);
+    for (Long64_t i = 0; i < nEntries_500; i++) {
+        tree_500->GetEntry(i);
         float w = 1.0;
-        float reweight_factor = ctau_reweighter(gLLP_ctau_300, 30, 300);
+        float reweight_factor = ctau_reweighter(gLLP_ctau_500, 30, 500);
         w *= reweight_factor;
-        h_gLLP_ctau_300_reweighted->Fill(gLLP_ctau_300, w);
+        h_gLLP_ctau_500_reweighted->Fill(gLLP_ctau_500, w);
     }
-    h_gLLP_ctau_300_reweighted->Scale(1./h_gLLP_ctau_300_reweighted->Integral(0,-1)); 
+    h_gLLP_ctau_500_reweighted->Scale(1./h_gLLP_ctau_500_reweighted->Integral(0,-1)); 
     
 
-    Long64_t nEntries_3000 = tree_3000->GetEntries();
+    Long64_t nEntries_5000 = tree_5000->GetEntries();
 
-    for (Long64_t i = 0; i < nEntries_3000; i++) {
+    for (Long64_t i = 0; i < nEntries_5000; i++) {
         float w = 1.0;
-        tree_3000->GetEntry(i);
-        h_gLLP_ctau_3000->Fill(gLLP_ctau_3000, w);
+        tree_5000->GetEntry(i);
+        h_gLLP_ctau_5000->Fill(gLLP_ctau_5000, w);
         
     }
-    h_gLLP_ctau_3000->Scale(1./h_gLLP_ctau_3000->Integral(0,-1));
+    h_gLLP_ctau_5000->Scale(1./h_gLLP_ctau_5000->Integral(0,-1));
 
-    for (Long64_t i = 0; i < nEntries_3000; i++) {
-        tree_3000->GetEntry(i);
+    for (Long64_t i = 0; i < nEntries_5000; i++) {
+        tree_5000->GetEntry(i);
         float w = 1.0;
-        float reweight_factor = ctau_reweighter(gLLP_ctau_3000, 300, 30);
+        float reweight_factor = ctau_reweighter(gLLP_ctau_5000, 500, 30);
 	w *=reweight_factor;        
-h_gLLP_ctau_3000_reweighted->Fill(gLLP_ctau_3000, w);
+h_gLLP_ctau_5000_reweighted->Fill(gLLP_ctau_5000, w);
 
     }
-    h_gLLP_ctau_3000_reweighted->Scale(1./h_gLLP_ctau_3000->Integral(0,-1));
+    h_gLLP_ctau_5000_reweighted->Scale(1./h_gLLP_ctau_5000->Integral(0,-1));
 
 
 
@@ -138,20 +138,20 @@ h_gLLP_ctau_3000_reweighted->Fill(gLLP_ctau_3000, w);
     // For Plotting
     //combined graph
     TCanvas *c1 = new TCanvas("c1", "gLLP_ctau Distribution", 800, 600);
-    h_gLLP_ctau_300->SetLineColor(kBlue);
-    h_gLLP_ctau_300_reweighted->SetLineColor(kRed);
-    h_gLLP_ctau_300->Draw();
-    h_gLLP_ctau_300_reweighted->Draw("same"); 
+    h_gLLP_ctau_500->SetLineColor(kBlue);
+    h_gLLP_ctau_500_reweighted->SetLineColor(kRed);
+    h_gLLP_ctau_500->Draw();
+    h_gLLP_ctau_500_reweighted->Draw("same"); 
 
     // TLatex *text = new TLatex();
     // text->SetNDC();
     // text->SetTextSize(0.04);
     // text->SetTextAlign(22); 
     TCanvas *c2 = new TCanvas("c2", "gLLP_ctau Distribution", 800, 600);
-    h_gLLP_ctau_3000->SetLineColor(kBlue);
-    h_gLLP_ctau_3000_reweighted->SetLineColor(kRed);
-    h_gLLP_ctau_3000->Draw();
-    h_gLLP_ctau_3000_reweighted->Draw("same"); 
+    h_gLLP_ctau_5000->SetLineColor(kBlue);
+    h_gLLP_ctau_5000_reweighted->SetLineColor(kRed);
+    h_gLLP_ctau_5000->Draw();
+    h_gLLP_ctau_5000_reweighted->Draw("same"); 
         // Convert float to string
     // std::ostringstream oss_x;
     // std::ostringstream oss_ratio;
@@ -161,8 +161,8 @@ h_gLLP_ctau_3000_reweighted->Fill(gLLP_ctau_3000, w);
     // std::string ratio_str = oss_ratio.str();
     // std::string annotation = "x-intersection " + x_cor_str + " ratio: " + ratio_str;
     // text->DrawLatex(0.5, 0.8, annotation.c_str());
-    c1->SaveAs("h_gLLP_Pi0Pi0_mPhi0p3_ctau300_with_reweighted3000_combined.png");
-    c2->SaveAs("h_gLLP_Pi0Pi0_mPhi0p3_ctau3000_with_reweighted300_combined.png");
+    c1->SaveAs("h_gLLP_Pi0Pi0_mPhi0p3_ctau500_with_reweighted5000_combined.png");
+    c2->SaveAs("h_gLLP_Pi0Pi0_mPhi0p3_ctau5000_with_reweighted500_combined.png");
 
     //seperate histograms
     // TCanvas *c2 = new TCanvas("c2", "gLLP_ctau Distribution", 800, 600);
