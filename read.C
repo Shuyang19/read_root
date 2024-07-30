@@ -19,9 +19,9 @@ return numerator / denominator;
 
 void read() {
     // Open the ROOT file
-    TFile *file1 = TFile::Open("BToKPhi_MuonLLPDecayGenFilter_PhiToPi0Pi0_mPhi0p3_ctau300.root");
+    TFile *file1 = TFile::Open("BToKPhi_MuonLLPDecayGenFilter_PhiToPi0Pi0_mPhi0p3_ctau500.root");
     //std::cout << "check point 1" << std::endl;    
-    TFile *file2 = TFile::Open("BToKPhi_MuonLLPDecayGenFilter_PhiToPi0Pi0_mPhi0p3_ctau3000.root");
+    TFile *file2 = TFile::Open("BToKPhi_MuonLLPDecayGenFilter_PhiToPi0Pi0_mPhi0p3_ctau5000.root");
     //std::cout << "check point 2" << std::endl;    
 
     
